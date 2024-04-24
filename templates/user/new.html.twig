@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New User{% endblock %}
+{% block page_name %} Nouveau Compte {% endblock %}
+
+{% block body %}
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const rolesSelect = document.getElementById('user_roles');
+    const additionalFieldContainer = document.getElementById('additional-fields');
+
+    function toggleAdditionalField() {
+        const selectedRoles = Array.from(rolesSelect.selectedOptions).map(opt => opt.value);
+        console.log(selectedRoles)
+        if (selectedRoles.includes('ROLE_STUDENT')) {
+            additionalFieldContainer.style.display = 'block';
+        } else {
+            additionalFieldContainer.style.display = 'none';
+        }
+    }
+
+    rolesSelect.addEventListener('change', toggleAdditionalField);
+    toggleAdditionalField(); 
+});
+</script>
+
+{{ form_errors(form) }}
+
+{{ form_start(form, {'attr': {'class': 'needs-validation', 'id': 'form_new_user'}}) }}
+    <div class="mb-3">
+        {{ form_label(form.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.email, {'attr': {'class': 'form-control', 'id': 'exampleInputEmail1', 'aria-describedby': 'emailHelp'}}) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.password, 'Mot de passe', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.password, {'attr': {'class': 'form-control', 'id': 'exampleInputPassword1'}}) }}
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            {{ form_label(form.nom, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="col-md-6 mb-3">
+            {{ form_label(form.prenom, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.prenom, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.roles, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.roles, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div id="additional-fields" style="display: none; margin-bottom: 15px;">
+        {{ form_label(form.formation, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.formation, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register</button>
+{{ form_end(form) }}
+
+{% endblock %}
